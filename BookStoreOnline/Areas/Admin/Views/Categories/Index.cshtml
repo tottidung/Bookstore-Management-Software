@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BookStoreOnline.Models.LOAI>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<title>Loại Sách</title>
+<div class="card-body">
+    <h2>Các thể loại sách</h2>
+</div>
+<div class="text-right">
+    <button type="button" class="btn btn-primary" onclick="location.href='/Admin/Categories/Create';">Thêm thể loại mới</button>
+</div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table-striped">
+            <tr>
+                <th>
+                    Thể loại
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tenloai)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = item.Maloai})" class="btn btn-sm btn-warning">Chỉnh sửa</a> |
+                        <a href="@Url.Action("Delete", new { id = item.Maloai })" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

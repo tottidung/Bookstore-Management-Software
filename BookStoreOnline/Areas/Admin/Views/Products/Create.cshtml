@@ -1,0 +1,66 @@
+﻿@model BookStoreOnline.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Tạo mới";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card-body">
+    <h2>Thêm sách mới</h2>
+</div>
+
+@using (Html.BeginForm("Create", "Products", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="mb-3">
+        <label for="TenSanPham" class="form-label">Tên sách</label>
+        @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TenSanPham, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="TacGia" class="form-label">Tác giả</label>
+        @Html.EditorFor(model => model.TacGia, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TacGia, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="GiaBan" class="form-label">Giá</label>
+        @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="MaLoai" class="form-label">Thể loại</label>
+        @Html.DropDownList("MaLoai", (SelectList)ViewBag.LoaiSP, "--Chọn thể loại--", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.MaLoai, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="GioiThieu" class="form-label">Giới thiệu</label>
+        @Html.TextAreaFor(model => model.MoTa, new { placeholder = "Giới thiệu về sách", @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="GiaBan" class="form-label">Số lượng</label>
+        @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SoLuong, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="Anh" class="form-label">Hình ảnh</label>
+        <input type="file" name="imageBook" />
+        @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+        <button type="submit" class="btn btn-primary" style="color: white !important; background-color:black;">Thêm</button>
+    </div>
+</div>
+}

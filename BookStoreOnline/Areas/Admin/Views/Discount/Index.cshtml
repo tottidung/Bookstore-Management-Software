@@ -1,0 +1,104 @@
+﻿@model IEnumerable<BookStoreOnline.Models.KHUYENMAI>
+
+@{
+    ViewBag.Title = "Khuyến Mãi";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center my-4">Danh Sách Khuyến Mãi</h2>
+<title>Danh Sách Khuyến Mãi</title>
+<p class="text-right">
+    @Html.ActionLink("Tạo Khuyến Mãi Mới", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<div style="margin-left:-105px">
+
+    <table style="margin:0" class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">
+                    <p style="display: block; width: 81px; font-size: 10px;">   ID</p>
+
+                </th>
+                <th scope="col">
+                    <p style="display: block; width: 81px; font-size: 10px;">Tên Chương Trình</p>
+                </th>
+                <th scope="col">
+                    <p style=" display: block; width: 81px; font-size: 10px;">
+                        Mã Khuyến Mãi
+                    </p>
+                </th>
+                <th scope="col">
+                    <p style="width: 50px; font-size: 10px;display:block"> Mô Tả</p>
+                </th>
+                <th scope="col"><p style="display: block; width: 81px; font-size: 10px;">Ngày Tạo</p></th>
+                <th scope="col"><p style="display: block; width: 81px; font-size: 10px; ">Ngày Bắt Đầu</p></th>
+                <th scope="col"><p style="display: block; width: 81px; font-size: 10px;">Ngày Kết Thúc</p></th>
+                <th scope="col"><p style="display: block; width: 90px; font-size: 10px;">Số Tiền Khuyến Mãi</p></th>
+                <th scope="col"><p style="display: block; width: 130px; font-size: 10px;">Số Tiền Mua Hàng Tối Thiểu</p></th>
+                <th scope="col"><p style="display: block; width: 81px; font-size: 10px;">Số Lần Dùng</p></th>
+                <th scope="col"><p style="display: block; width: 50px; font-size: 10px;">Kích Hoạt</p></th>
+                <th scope="col"><p style="display: block; width: 50px; font-size: 10px;">Hành Động</p></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.TenChuongTrinh</td>
+                    <td>@item.MaKM</td>
+                    <td>@item.MoTa</td>
+                    <td>@item.NgayTao.ToShortDateString()</td>
+                    <td>@item.NgayBatDau.ToShortDateString()</td>
+                    <td>@item.NgayKetThuc.ToShortDateString()</td>
+                    <td>@String.Format("{0:C}", item.SoTienKM)</td>
+                    <td>@String.Format("{0:C}", item.SoTienMuaHangToiThieu)</td>
+                    <td>@item.SoLanDung</td>
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="kichHoat_@item.ID" data-id="@item.ID" @(item.KichHoat ? "checked" : "")>
+                            <label class="custom-control-label" for="kichHoat_@item.ID"></label>
+                        </div>
+                    </td>
+                    <td style="display:flex;">
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Xóa", "Delete", new { id = item.ID }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+        $(document).ready(function() {
+            $('.custom-control-input').change(function() {
+                var isChecked = $(this).is(':checked');
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '@Url.Action("ToggleActivation", "Discount")',
+                    type: 'POST',
+                    data: { id: id, isActive: isChecked },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Trạng thái khuyến mãi đã được cập nhật.');
+                        } else {
+                            alert('Có lỗi xảy ra: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra. Vui lòng thử lại. Chi tiết lỗi: ' + error);
+                    }
+                });
+            });
+        });
+</script>
+
+<style>
+    a:visited {
+        color: #fff;
+        background-color: #000;
+    }
+</style>

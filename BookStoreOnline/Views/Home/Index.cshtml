@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<BookStoreOnline.Models.SANPHAM>
+
+@{
+    var price = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var user = Session["TaiKhoan"] as BookStoreOnline.Models.KHACHHANG;
+}
+<link rel="stylesheet" href="~/Content/style.css">
+<script src="~/Scripts/Jav.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+<section style="margin-top:25px;" class="hero">
+    <div style="width:100%;" class="slide-show">
+        <div class="list-images">
+            <img src="~/Images/Cardgame_Slide_T6_840x320.jpg" alt="Slide 1">
+            <img src="~/Images/MangaWeek_T524_MangaFiesta_Slidebanner_840x320.jpg" alt="Slide 2">
+            <img src="~/Images/Silver_0624_Ver2_ZenBooksSlide_840x320.png" alt="Slide 3">
+            <img src="~/Images/Tapvo_SlideBanner_T06.jpg" alt="Slide 4">
+        </div>
+        <div class="btnn">
+            <div class="btn-left"><i class="fas fa-angle-left"></i></div>
+            <div class="btn-right"><i class="fas fa-angle-right"></i></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const listImages = document.querySelector('.list-images');
+        const btnLeft = document.querySelector('.btn-left');
+        const btnRight = document.querySelector('.btn-right');
+        const images = document.querySelectorAll('.list-images img');
+
+        let index = 0;
+        const imageWidth = listImages.clientWidth;
+
+        function moveToSlide(slideIndex) {
+            listImages.style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+
+        btnRight.addEventListener('click', function () {
+            index = (index + 1) % images.length;
+            moveToSlide(index);
+        });
+
+        btnLeft.addEventListener('click', function () {
+            index = (index - 1 + images.length) % images.length;
+            moveToSlide(index);
+        });
+
+        // Tự động chuyển slide mỗi 5 giây
+        setInterval(function () {
+            btnRight.click();
+        }, 3000);
+    });
+</script>
+
+<style>
+    .progress-bar-container {
+        width: 100%;
+        background-color: #99999999;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px 0;
+        height: 20px;
+        position: relative;
+        padding: 0 10px;
+        box-sizing: border-box;
+        margin-bottom: -15px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        text-align: center;
+        color: white;
+        line-height: 20px;
+        border-radius: 4px;
+        transition: width 0.4s ease;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: #C92127 !important; /* Đảm bảo màu sắc chính xác */
+        z-index: 1;
+    }
+
+    .sold-text {
+        font-weight: 500;
+        text-align: center;
+        color: white;
+        position: absolute;
+        width: 100%;
+        line-height: 20px;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    .hero {
+        width: 1150px;
+        /* Điều chỉnh kích thước tối đa của khung trình chiếu */
+        margin: 25px auto; /* Canh giữa khung trình chiếu */
+        overflow: hidden;
+        border-radius: 10px; /* Bo tròn góc khung trình chiếu */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ để khung trình chiếu nổi bật hơn */
+        margin-bottom: 10px; /* Thêm khoảng cách dưới khung trình chiếu để gần với nút sách */
+    }
+
+    .slide-show {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .list-images {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+        .list-images img {
+            width: 100%;
+            height: auto;
+            flex-shrink: 0;
+            border-radius: 10px; /* Bo tròn góc ảnh */
+        }
+
+    .btnn {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .btn-left, .btn-right {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-left:hover, .btn-right:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    .rating-stars {
+        display: flex;
+    }
+
+        .rating-stars .fa-star {
+            font-size: 1.5em; /* Kích thước sao */
+            color: #D3D3D3; /* Màu xám cho sao chưa được đánh giá */
+        }
+
+            .rating-stars .fa-star.filled {
+                color: #FFD700; /* Màu vàng cho sao đã được đánh giá */
+            }
+</style>
+
+<div style="padding:0;" class="container body-page">
+    <h3 style="text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; background-color: #c92127; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; max-width: 100%; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;">Sách</h3>
+    <hr />
+    <div style="padding:0;" class="container body-page">
+        <h3 class="title">Sách</h3>
+        <hr />
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                var soldQuantity = item.SoLuongBan;
+                var totalQuantity = item.SoLuong;
+                var percentageSold = totalQuantity > 0 ? (soldQuantity / (float)totalQuantity) * 100 : 0;
+                var roundedPercentageSold = Math.Round(percentageSold);
+
+                var progressBarColor = percentageSold == 100 ? "#C92127" :
+                                       percentageSold >= 50 ? "#F39C12" :
+                                       "#27AE60"; // Điều chỉnh màu sắc theo nhu cầu
+
+                // Tính số sao trung bình
+                var reviews = item.DANHGIA;
+                var averageRating = reviews.Any() ? reviews.Average(r => r.SoSao) : 0;
+                var roundedRating = Math.Round(averageRating, 1); // Làm tròn đến 1 chữ số thập phân
+
+                <div class="col-lg-3 prod-item">
+                    <div class="card" style="width: 18rem;">
+                        <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })">
+                            <img class="card-img-top" src="~/Images/@item.Anh" alt="Ảnh sản phẩm">
+                        </a>
+                        <div style="height:250px" class="card-body">
+                            <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })" class="title-prod">
+                                <h5 class="card-title">
+                                    @Html.Raw(GetShortTitle(item.TenSanPham))
+                                </h5>
+                            </a>
+                            <h5 style="color: darkred;">@String.Format(price, "{0:c0}", item.Gia)</h5>
+                            <p class="card-text rating-card">
+                                <!-- Hiển thị số lượng đánh giá và sao đánh giá -->
+                                <span style="color: black;">(@item.DANHGIA.Count() đánh giá, @roundedRating sao)</span>
+                                <div class="rating-stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i class="fas fa-star @(i <= roundedRating ? "filled" : "")"></i>
+                                    }
+                                </div>
+                            </p>
+
+                            <!-- Hiển thị số lượng đã bán với thanh tiến độ -->
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: @roundedPercentageSold%; background-color: @progressBarColor; border-radius: 30px;"></div>
+                                <div class="sold-text">Đã bán @soldQuantity/@totalQuantity</div>
+                            </div>
+
+                            @if (user != null)
+                            {
+                                <a href="@Url.Action("AddSingleProduct", "Cart", new { id = item.MaSanPham })" style="background-color: #c92127; text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;">Mua</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login", "User")" style="background-color: #c92127; text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;">Mua</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row" style="justify-content: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #C92127; background-color: #fff; border: 2px solid #C92127; font-size: 14px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;">
+            <a href="@Url.Action("GetAllBook", "Category")" class="see-more">
+                <h4 style="color:darkred; margin-top:3px">Xem thêm</h4>
+            </a>
+        </div>
+    </div>
+
+    @helper GetShortTitle(string title)
+    {
+        var words = title.Split(' ');
+        if (words.Length > 4)
+        {
+            string shortTitle = string.Join(" ", words.Take(4)) + "...";
+            @shortTitle
+        }
+        else
+        {
+            @title
+        }
+    }
+
+    <style>
+        .rating-stars {
+            color: #FFD700; /* Màu vàng cho sao */
+        }
+
+            .rating-stars .fa-star {
+                font-size: 1.5em; /* Kích thước sao */
+            }
+
+                .rating-stars .fa-star.filled {
+                    color: #FFD700; /* Màu vàng cho sao đã được đánh giá */
+                }
+    </style>
+</div>

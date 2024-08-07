@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form style="border-radius: 10px; padding: 20px 20px; background: #fff; margin: 32px 0px; width: 500px; margin-left: 550px;" method="post">
+    <h2>Đăng Nhập</h2>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" required />
+    </div>
+    <div class="form-group" style="position: relative;">
+        <label for="MatKhau">Mật Khẩu</label>
+        <input type="password" class="form-control" id="MatKhau" name="MatKhau" required />
+        <button type="button" id="togglePassword" style="position: absolute; right: 20px; top: 48px; background: none; border: none; cursor: pointer;">
+            <i class="fa fa-eye"></i>
+        </button>
+    </div>
+    <button style=" width: 100px; padding: 0px; margin: 0; margin-left: 171px; background-color: #C92127;" type="submit" class="btn btn-primary">Đăng Nhập</button>
+    @if (ViewBag.ThongBao != null)
+    {
+        <div class="alert alert-danger mt-2">
+            @ViewBag.ThongBao
+        </div>
+    }
+</form>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+        const passwordInput = document.getElementById('MatKhau');
+        const icon = this.querySelector('i');
+        if (passwordInput.getAttribute('type') === 'password') {
+            passwordInput.setAttribute('type', 'text');
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.setAttribute('type', 'password');
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+}

@@ -1,0 +1,183 @@
+﻿@model BookStoreOnline.Models.DONHANG
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Xóa đơn hàng</h2>
+
+<h3>Bạn có muốn xóa đơn hàng này</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayDat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayDat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThaiThanhToan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThaiThanhToan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhuongThucThanhToan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhuongThucThanhToan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaKM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaKM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KHACHHANG.Ten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KHACHHANG.Ten)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NHANVIEN.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NHANVIEN.Email)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại", "Index")
+        </div>
+    }
+</div>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Container styling */
+    .container {
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Heading styling */
+    h2 {
+        color: #d9534f;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        color: #5bc0de;
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        color: #5bc0de;
+        margin-bottom: 10px;
+    }
+
+    /* Horizontal list styling */
+    .dl-horizontal {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .dl-horizontal dt,
+        .dl-horizontal dd {
+            flex: 1 1 45%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        /* Ensure dt and dd are on the same row */
+        .dl-horizontal dt {
+            margin-right: 10px;
+        }
+
+    /* Form actions styling */
+    .form-actions {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    /* Button styling */
+    .btn-default {
+        background-color: #d9534f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+        .btn-default:hover {
+            background-color: #c9302c;
+        }
+
+    /* Link styling */
+    a {
+        color: #5bc0de;
+        text-decoration: none;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>

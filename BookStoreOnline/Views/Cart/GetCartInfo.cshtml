@@ -1,0 +1,357 @@
+﻿@using BookStoreOnline.Models;
+@model List<CartItem>
+@{
+    ViewBag.Title = "GetCartInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var price = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var user = Session["TaiKhoan"] as BookStoreOnline.Models.KHACHHANG;
+}
+
+<div class="container body-page">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Đơn giá</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="prod-list-table">
+                    <td class="prod-list-details" style="padding-top: 10px;">
+                        <img src="~/Images/@item.ImagePro" alt="">
+                        <h5>@item.NamePro</h5>
+                    </td>
+                    <td>
+                        <div style="border: 0; background-color: #f9f5ee" class="quantity-wrapper">
+                            <button style=" background-color: #000; color: #f8f9fa;" type="button" class="quantity-btn" data-action="decrease">-</button>
+                            <input style=" width: 100px;" type="number" name="Quantity" value="@item.Number" min="1" data-product-id="@item.ProductID" class="quantity-input">
+                            <button style=" background-color: #000; color: #f8f9fa;" type="button" class="quantity-btn" data-action="increase">+</button>
+                            <input style=" background-color: #000; color: #f8f9fa;" type="hidden" name="ProductID" value="@item.ProductID" />
+                        </div>
+                    </td>
+                    <td>
+                        <h5 class="price-cell" data-price="@item.FinalPrice()">@String.Format(price, "{0:c0}", item.FinalPrice())</h5>
+                        <input type="hidden" name="ProductID" value="@item.ProductID" />
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Remove", "Cart", new { id = item.ProductID })" class="delete-prod-btn"><i class="bi bi-x-square-fill"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+    @using (Html.BeginForm("InsertOrder", "Cart", FormMethod.Post, new { @class = "checkout-form" }))
+    {
+        <div class="row infor-order">
+            <div style=" margin-top: -20px;" class="col-lg-6">
+                <h5 style="color:#000;" class="address-title">Địa chỉ</h5>
+                <textarea style="border:1px solid #ccc;" name="address" placeholder="Nhập địa chỉ giao hàng" rows="4" required></textarea>
+                <h5 style="color:#000;" class="payment-method-title">Phương thức thanh toán</h5>
+                <select style="color: #000; padding: 10px 5px; border-radius: 5px; background-color: white; border: 1px solid #ccc;" name="paymentMethod" required>
+                    <option value="" disabled selected>Chọn phương thức thanh toán</option>
+                    <option value="1">Tiền mặt</option>
+                    <option value="2">Ví điện tử</option>
+                    @* <option value="3">Ngân hàng</option>*@
+                </select>
+            </div>
+            <div class="col-lg-6">
+                <h5 class="discount-code-title">Mã khuyến mãi</h5>
+                <input style="color: #000; padding: 10px 5px; border-radius: 5px; background-color: white; border: 1px solid #ccc;" type="text" name="discountCode" placeholder="Nhập mã khuyến mãi" />
+                <div style=" margin-top: 10px; border: 1px solid #ccc; justify-content: space-between; display: flex; padding: 10px;" class="discount-details">
+                    <h5>Giảm giá</h5>
+                    <p id="discount-amount">0 đ</p>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>Số lượng sản phẩm</td>
+                        <td>@ViewBag.TotalNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Tổng giá</td>
+                        <td><h4 id="total-price">@String.Format(price, "{0:c0}", ViewBag.TotalPrice)</h4></td>
+                    </tr>
+                </table>
+                <!-- Thêm trường hidden vào đây -->
+                <input type="hidden" name="discountAmount" value="0" />
+                <button style="margin-left: 150px; width: 200px; background-color: #C92127;color: #fff;/* border: 1px solid; */text-align: center;border-radius: 3px;" class="custom-btn">
+                    <p style="margin-top:-4px;">Đặt hàng</p>
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+
+    var quantityInputs = document.querySelectorAll('.quantity-input');
+    var priceCells = document.querySelectorAll('.price-cell');
+    var discountInput = document.querySelector('input[name="discountCode"]');
+    var discountAmountElement = document.getElementById('discount-amount');
+    var totalPriceElement = document.getElementById('total-price');
+    var discountAmountInput = document.querySelector('input[name="discountAmount"]');
+
+    // Cập nhật số lượng và giá sản phẩm
+    quantityInputs.forEach(function (input) {
+        var wrapper = input.closest('.quantity-wrapper');
+        var increaseBtn = wrapper.querySelector('.quantity-btn[data-action="increase"]');
+        var decreaseBtn = wrapper.querySelector('.quantity-btn[data-action="decrease"]');
+
+        increaseBtn.addEventListener('click', function () {
+            var currentValue = parseInt(input.value);
+            var newValue = currentValue + 1;
+            updateQuantity(input, newValue);
+        });
+
+        decreaseBtn.addEventListener('click', function () {
+            var currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                var newValue = currentValue - 1;
+                updateQuantity(input, newValue);
+            }
+        });
+
+        input.addEventListener('input', function () {
+            var newValue = parseInt(input.value);
+            updateQuantity(this, newValue);
+        });
+    });
+
+    function updateQuantity(input, newQuantity) {
+        var productId = input.dataset.productId;
+        var priceCell = input.closest('tr').querySelector('.price-cell');
+        var originalPrice = parseFloat(priceCell.dataset.price);
+
+        // Gửi yêu cầu kiểm tra tồn kho và cập nhật số lượng
+        fetch('@Url.Action("Update", "Cart")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `productId=${productId}&quantity=${newQuantity}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var newPrice = originalPrice * newQuantity;
+                input.value = newQuantity;
+                priceCell.textContent = priceFormat.format(newPrice);
+
+                // Cập nhật tổng giá và giảm giá
+                updateTotalPrice();
+            } else {
+                alert('Số lượng sản phẩm vượt quá số lượng tồn kho!');
+                input.value = parseInt(input.dataset.initialQuantity); // Khôi phục giá trị input trước khi xảy ra lỗi
+            }
+        })
+        .catch(error => {
+            console.error('Có lỗi xảy ra:', error);
+            alert('Có lỗi xảy ra khi cập nhật số lượng!');
+        });
+    }
+
+    function updateTotalPrice(discountAmount = 0) {
+        var totalPrice = 0;
+        priceCells.forEach(function (cell) {
+            totalPrice += parseFloat(cell.textContent.replace(/[^0-9]/g, ''));
+        });
+
+        var finalPrice = totalPrice - discountAmount;
+        finalPrice = Math.max(finalPrice, 0);
+        totalPriceElement.textContent = priceFormat.format(finalPrice);
+    }
+
+   // Hàm áp dụng mã khuyến mãi
+function applyDiscount() {
+    var discountCode = discountInput.value;
+
+    fetch('@Url.Action("ApplyDiscount", "Cart")', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `discountCode=${encodeURIComponent(discountCode)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var discountAmount = data.discountAmount;
+            discountAmountElement.textContent = priceFormat.format(discountAmount);
+            updateTotalPrice(discountAmount);
+
+            // Cập nhật tổng tiền đã giảm giá trong phiên
+            discountAmountInput.value = discountAmount; // Cập nhật giá trị trường hidden
+        } else {
+            discountAmountElement.textContent = '0 đ';
+            updateTotalPrice(0);
+            alert(data.message);
+
+            // Đặt giá trị trường hidden về 0
+            discountAmountInput.value = '0';
+        }
+    })
+    .catch(error => {
+        console.error('Có lỗi xảy ra:', error);
+        discountAmountElement.textContent = '0 đ';
+        updateTotalPrice(0);
+        alert('Có lỗi xảy ra khi áp dụng mã khuyến mãi!');
+
+        // Đặt giá trị trường hidden về 0
+        discountAmountInput.value = '0';
+    });
+}
+    // Áp dụng mã khuyến mãi khi thay đổi giá trị input
+    discountInput.addEventListener('change', applyDiscount);
+
+    // Cập nhật tổng giá khi trang được tải
+    updateTotalPrice();
+});
+</script>
+
+<style>
+    .quantity-wrapper {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+    }
+
+    .quantity-btn {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .quantity-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .quantity-btn.minus {
+            border-radius: 5px 0 0 5px; /* Rounded corners on the left */
+        }
+
+        .quantity-btn.plus {
+            border-radius: 0 5px 5px 0; /* Rounded corners on the right */
+        }
+
+    .quantity-input {
+        width: 60px;
+        text-align: center;
+        border: none;
+        font-size: 16px;
+        padding: 10px;
+        background-color: #fff;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-radius: 0;
+    }
+
+        .quantity-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+        }
+
+    .price-cell {
+        font-size: 18px;
+        font-weight: bold;
+        color: #dc3545; /* Thay đổi màu sắc để nổi bật */
+    }
+
+    .delete-prod-btn {
+        color: #dc3545;
+        font-size: 20px;
+        transition: color 0.3s ease;
+    }
+
+        .delete-prod-btn:hover {
+            color: #c82333;
+        }
+
+    .checkout-form {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+    }
+
+    .address-title, .payment-method-title, .promo-code-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .address-title {
+        color: #007bff;
+    }
+
+    .payment-method-title {
+        color: #28a745;
+    }
+
+    .promo-code {
+        margin-top: 15px;
+    }
+
+        .promo-code input {
+            width: calc(100% - 110px);
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .promo-code button {
+            width: 100px;
+            border: 1px solid #007bff;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .promo-code button:hover {
+                background-color: #0056b3;
+            }
+
+    #promoMessage {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #dc3545;
+    }
+
+    .custom-btn.btn-14 {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .custom-btn.btn-14:hover {
+            background-color: #0056b3;
+        }
+</style>

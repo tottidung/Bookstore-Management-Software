@@ -1,0 +1,78 @@
+﻿@model BookStoreOnline.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chỉnh sửa</h2>
+
+@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MaSanPham)
+
+
+
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label"> Tên sách</label>
+        @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TenSanPham)
+    </div>
+
+
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label"> Tác giả</label>
+        @Html.EditorFor(model => model.TacGia, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.TacGia)
+    </div>
+
+
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label"> Giá </label>>
+        @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Gia)
+    </div>
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label"> Số lượng </label>>
+        @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SoLuong)
+    </div>
+
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label"> Mô tả </label>
+        <textarea class="form-control" name="MoTa" rows="5">@Model.MoTa</textarea>
+        @Html.ValidationMessageFor(model => model.MoTa)
+    </div>
+</div>
+    <div class="mb-3">
+        <label for="TenLoai" class="form-label">Thể loại</label>
+        @Html.DropDownList("MaLoai", (SelectList)ViewBag.LoaiSP, "Chọn thể loại", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.MaLoai, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label"> Hình ảnh</label>
+        <img src="~/Images/@Model.Anh" style="width: 30%; position: relative; left: 0;height:280px" /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+        @*@Html.EditorFor(model => model.ImagePro, new { htmlAttributes = new { @class = "form-control" } })*@
+        <input type="file" name="imageBook" />
+        @Html.HiddenFor(model => model.Anh)
+
+        @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="d-flex justify-content-between align-items-center">
+        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </div>
+
+}
+
+

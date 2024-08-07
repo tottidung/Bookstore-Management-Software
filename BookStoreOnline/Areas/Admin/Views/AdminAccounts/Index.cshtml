@@ -1,0 +1,121 @@
+﻿@model IEnumerable<BookStoreOnline.Models.NHANVIEN>
+@using BookStoreOnline.Areas.Admin.Constants;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<title>Tài khoản Admin</title>
+<div class="card-body">
+    <h2>Danh sách tài khoản quản trị</h2>
+</div>
+<div class="text-right">
+    <button type="button" class="btn btn-primary" onclick="location.href='/Admin/AdminAccounts/Create';">Thêm người quản trị</button>
+</div>
+<div class="card-body">
+    <table class="table-responsive">
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                Tên người dùng
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Quyền hạn
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>Thời gian tạo</th>
+            <th></th>
+        </tr>
+        @{
+            int STT = 1; // Initialize the counter
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @STT
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ten)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @EHelper.GetEnumDescription((Constants.AdminRole)item.Quyen)
+                </td>
+                <td>
+                    @(item.TrangThai ? "Kích hoạt" : "Vô hiệu hóa")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayTao)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.AdminID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.AdminID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AdminID })*@
+
+                    <a href="@Url.Action("Edit", new { id = item.MaNV })" class="btn btn-sm btn-warning">Chỉnh sửa</a>
+                    <a href="@Url.Action("DisableAccount", new { id = item.MaNV })" class="btn btn-sm btn-info">Vô hiệu hóa </a>
+                    <a href="@Url.Action("Delete", new { id = item.MaNV })" class="btn btn-sm btn-danger">Xóa</a>
+
+                </td>
+            </tr>
+
+            STT++;
+        }
+
+
+    </table>
+
+</div>
+
+
+
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.AdminID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.AdminID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.AdminID })
+            </td>
+        </tr>
+    }
+
+    </table>*@

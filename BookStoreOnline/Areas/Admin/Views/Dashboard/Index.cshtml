@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+@*<script type="text/javascript">
+
+    window.onload = function () {
+     var activities = @Html.Raw(Json.Encode(Model));
+        var lstData = [];
+        for (var i = 0; i < activities.length; i++) {
+            var item = activities[i];
+            lstData.push(
+                { label: item.label, y: item.value }
+            )
+        }
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "BIEU DO LUOT XEM CAC BAI VIET"
+            },
+            data: [
+                {
+                    type: "column",
+                    dataPoints: lstData
+                }
+            ]
+        });
+        console.log(lstData);
+        chart.render();
+    }
+</script>*@
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>

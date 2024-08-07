@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<BookStoreOnline.Models.SANPHAM>
+@{
+    var price = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var user = Session["TaiKhoan"] as BookStoreOnline.Models.KHACHHANG;
+}
+
+<div class="container body-page">
+    <div class="row">
+        <div class="col-lg-3">
+            @{ Html.RenderAction("GetCategorySelection", "CategoryPartial"); }
+        </div>
+        <div class="col-lg-9 list-book">
+            <h3 style="color:gray">@ViewBag.CategoryName</h3>
+            <div class="row">
+                <!-- product -->
+                @foreach (var item in Model)
+                {
+
+                    // Tính số lượng đã bán và tổng số lượng
+                    var soldQuantity = item.SoLuongBan;
+                    var totalQuantity = item.SoLuong;
+                    var percentageSold = totalQuantity > 0 ? (soldQuantity / (float)totalQuantity) * 100 : 0;
+                    var roundedPercentageSold = Math.Round(percentageSold); // Làm tròn thành số nguyên
+                    var progressBarColor = roundedPercentageSold == 100 ? "#C92127" : // đỏ (đã bán hết)
+                                           roundedPercentageSold >= 50 ? "#FFC107" : // vàng (đã bán trên 50%)
+                                           "#28A745"; // xanh lá (dưới 50%)
+
+
+                    <div style="margin-left:10px;" class="prod-item">
+                        <div class="card" style="width: 18rem;">
+                            <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })">
+                                <img class="card-img-top" src="~/Images/@item.Anh" alt="Card image cap">
+                            </a>
+                            <div class="card-body">
+                                <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })" class="title-prod">
+                                    <h5 class="card-title">
+                                        @Html.Raw(GetShortTitle(item.TenSanPham))
+                                    </h5>
+                                </a>
+                                <h5 style="color: darkred;">@String.Format(price, "{0:c0}", item.Gia)</h5>
+                                <p class="card-text rating-card">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <span style="color: black;">(0 đánh giá)</span>
+                                </p>
+
+                                <!-- Hiển thị số lượng đã bán với thanh tiến độ -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: @roundedPercentageSold%; background-color: @progressBarColor; border-radius: 30px;"></div>
+                                    <div class="sold-text">Đã bán @soldQuantity/@totalQuantity</div>
+                                </div>
+
+                                @if (user != null)
+                                {
+                                    <a href="@Url.Action("AddSingleProduct", "Cart", new { id = item.MaSanPham })" class="custom-btn" style="text-align: center; margin: 30px auto; display: flex; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; -ms-flex-align: center; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; color: #fff; background-color: #c92127; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; max-width: 100%; height: 40px; max-height: 100%; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; cursor: pointer; -webkit-user-drag: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -o-user-select: none; user-select: none; transition: all 0.5s;">Mua</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "User")" class="custom-btn" style="text-align: center; margin: 30px auto; display: flex; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; -ms-flex-align: center; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; color: #fff; background-color: #c92127; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; max-width: 100%; height: 40px; max-height: 100%; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; cursor: pointer; -webkit-user-drag: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -o-user-select: none; user-select: none; transition: all 0.5s;">Mua</a>
+                                }
+                                @*   <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })" class="see-detail-prod">
+                                        <i class="bi bi-eye"></i>
+                                    </a>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@helper GetShortTitle(string title)
+{
+    var words = title.Split(' ');
+    if (words.Length > 4)
+    {
+        string shortTitle = string.Join(" ", words.Take(4)) + "...";
+        @shortTitle
+    }
+    else
+    {
+        @title
+    }
+}
+<style>
+    .progress-bar-container {
+        width: 100%;
+        background-color: #99999999;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px 0;
+        height: 20px;
+        position: relative;
+        padding: 0 10px;
+        box-sizing: border-box;
+        margin-bottom: -15px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        text-align: center;
+        color: white;
+        line-height: 20px;
+        border-radius: 4px;
+        transition: width 0.4s ease;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: #C92127 !important; /* Đảm bảo màu sắc chính xác */
+        z-index: 1;
+    }
+
+    .sold-text {
+        font-weight: 500;
+        text-align: center;
+        color: white;
+        position: absolute;
+        width: 100%;
+        line-height: 20px;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+</style>
+

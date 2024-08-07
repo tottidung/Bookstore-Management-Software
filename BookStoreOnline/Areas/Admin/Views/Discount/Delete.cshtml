@@ -1,0 +1,191 @@
+﻿@model BookStoreOnline.Models.KHUYENMAI
+
+@{
+    ViewBag.Title = "Xóa";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="delete-promotion-title"></h2>
+
+<h3 class="delete-promotion-subtitle">Bạn có chắc chắn muốn xóa chương trình khuyến mãi này?</h3>
+<div class="delete-promotion-container">
+    <h4 class="delete-promotion-header">Chương Trình Khuyến Mãi</h4>
+    <hr />
+    <dl class="promotion-details">
+        <dt class="promotion-detail-label">
+            Tên Chương Trình
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.TenChuongTrinh)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Mã Khuyến Mãi
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.MaKM)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Mô Tả
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.MoTa)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Ngày Tạo
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.NgayTao)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Ngày Bắt Đầu
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.NgayBatDau)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Ngày Kết Thúc
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.NgayKetThuc)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Số Tiền Khuyến Mãi
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.SoTienKM)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Số Tiền Mua Hàng Tối Thiểu
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.SoTienMuaHangToiThieu)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Số Lần Dùng
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.SoLanDung)
+        </dd>
+
+        <dt class="promotion-detail-label">
+            Kích Hoạt
+        </dt>
+        <dd class="promotion-detail-value">
+            @Html.DisplayFor(model => model.KichHoat)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="delete-promotion-actions">
+            <input type="submit" value="Xóa" class="btn-delete" /> |
+            @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn-back" })
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .delete-promotion-title {
+        color: #e74c3c;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .delete-promotion-subtitle {
+        text-align: center;
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    .delete-promotion-container {
+        background-color: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .delete-promotion-header {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+    .promotion-details {
+        margin-bottom: 20px;
+    }
+
+    .promotion-detail-label {
+        font-weight: bold;
+        color: #34495e;
+        margin-bottom: 5px;
+    }
+
+    .promotion-detail-value {
+        margin-bottom: 10px;
+        color: #7f8c8d;
+    }
+
+    .delete-promotion-actions {
+        text-align: center;
+    }
+
+        .delete-promotion-actions .btn-delete,
+        .delete-promotion-actions .btn-back {
+            border-radius: 4px;
+            padding: 12px 25px;
+            margin: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .delete-promotion-actions .btn-delete {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
+        }
+
+            .delete-promotion-actions .btn-delete:hover {
+                background-color: #c0392b;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+            }
+
+        .delete-promotion-actions .btn-back {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            text-decoration: none;
+            padding: 12px 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            .delete-promotion-actions .btn-back:hover {
+                background-color: #333;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            }
+</style>

@@ -1,0 +1,122 @@
+﻿@model BookStoreOnline.Models.DANHGIA
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="delete-comment-title">Xóa bình luận</h2>
+<title>Xóa Đánh Giá</title>
+<div class="delete-comment-container">
+    <h4 class="delete-comment-header">Bình luận</h4>
+    <hr />
+    <dl class="comment-details">
+        <dt class="comment-detail-label">Khách hàng</dt>
+        <dd class="comment-detail-value">@Model.KHACHHANG.Ten</dd>
+        <dt class="comment-detail-label">Sản phẩm</dt>
+        <dd class="comment-detail-value">@Model.SANPHAM.TenSanPham</dd>
+        <dt class="comment-detail-label">Nội dung</dt>
+        <dd class="comment-detail-value">@Model.NoiDung</dd>
+        <dt class="comment-detail-label">Ngày tạo</dt>
+        <dd class="comment-detail-value">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.ID" />
+        <div class="delete-comment-actions">
+            <input type="submit" value="Xóa" class="btn-delete" /> |
+            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn-back" })
+        </div>
+    }
+</div>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .delete-comment-title {
+        color: #e74c3c;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .delete-comment-container {
+        background-color: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .delete-comment-header {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+    .comment-details {
+        margin-bottom: 20px;
+    }
+
+    .comment-detail-label {
+        font-weight: bold;
+        color: #34495e;
+        margin-bottom: 5px;
+    }
+
+    .comment-detail-value {
+        margin-bottom: 10px;
+        color: #7f8c8d;
+    }
+
+    .delete-comment-actions {
+        text-align: center;
+    }
+
+        .delete-comment-actions .btn-delete,
+        .delete-comment-actions .btn-back {
+            border-radius: 4px;
+            padding: 12px 25px;
+            margin: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .delete-comment-actions .btn-delete {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
+        }
+
+            .delete-comment-actions .btn-delete:hover {
+                background-color: #c0392b;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+            }
+
+        .delete-comment-actions .btn-back {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            text-decoration: none;
+            padding: 12px 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            .delete-comment-actions .btn-back:hover {
+                background-color: #333;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            }
+</style>

@@ -1,0 +1,70 @@
+﻿@model BookStoreOnline.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card-body">
+    <h2 class="card-title">Xóa</h2>
+</div>
+<div class="card mt-4 shadow-sm">
+    <div class="card-body">
+        <h3 class="text-center mb-4">Bạn có chắc chắn muốn xóa danh mục này?</h3>
+        <h4 class="text-center">
+            Danh mục: @Html.DisplayFor(model => model.TenSanPham)
+        </h4>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+            </div>
+        }
+    </div>
+</div>
+
+
+@*<h3>Bạn có chắc chắn muốn xóa sách này ?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageProd)
+        </dt>
+
+        <dd>
+            <img src="~/Images/@Model.ImageProd" style="width: 20%; position: relative; left: 0;height:280px" /> <br /> <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        </dd>
+
+        <dt>
+            Thể loại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="d-flex justify-content-between">
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+        </div>
+    }
+</div>*@

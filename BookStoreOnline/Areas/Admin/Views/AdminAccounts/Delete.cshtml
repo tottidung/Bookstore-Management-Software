@@ -1,0 +1,29 @@
+﻿@model BookStoreOnline.Models.NHANVIEN
+@using BookStoreOnline.Areas.Admin.Constants;
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card-body">
+    <h2 class="card-title">Xóa</h2>
+</div>
+<div class="card mt-4 shadow-sm">
+    <div class="card-body">
+        <h3 class="text-center mb-4">Bạn có chắc chắn muốn xóa danh mục này?</h3>
+        <h4 class="text-center">
+            @*@EnumExtensions.GetDescription(Model.AdminRole)*@
+
+            Người dùng: @Html.DisplayFor(model => model.Ten)
+        </h4>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,8 @@
+﻿<div class="list-group">
+    <a href="@Url.Action("GetAllBook","Category")" class="list-group-item list-group-item-action" style="border:none"><i class="bi bi-list"></i>Tất cả sản phẩm</a>
+    @foreach (var item in ViewBag.CateList)
+    {
+        <a href="@Url.Action("Index/" + item.Maloai,"Category")" class="list-group-item list-group-item-action">@item.Tenloai</a>
+
+    }
+</div>

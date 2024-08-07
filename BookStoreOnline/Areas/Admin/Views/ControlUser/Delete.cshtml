@@ -1,0 +1,73 @@
+﻿@model BookStoreOnline.Models.KHACHHANG
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card-body">
+    <h2 class="card-title">Xóa</h2>
+</div>
+<div class="card mt-4 shadow-sm">
+    <div class="card-body">
+        <h3 class="text-center mb-4">Bạn có chắc chắn muốn xóa Người dùng này?</h3>
+        <h4 class="text-center">
+            Người dùng: @Html.DisplayFor(model => model.Ten)
+        </h4>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@*<h2>Xoá vĩnh viễn người dùng</h2>
+
+<div>
+    <h4>Nguoidung</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameKHACHHANGs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameKHACHHANGs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xoá" class="btn btn-warning" />
+        </div>
+    }
+</div>*@
+

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<BookStoreOnline.Models.DONHANG>
+@using BookStoreOnline.Areas.Admin.Constants;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<title>Danh Sách Đơn Hàng</title>
+<div class="card-body">
+    <h2>Danh sách đơn hàng</h2>
+</div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped text-center">
+            <tr>
+                <th>Khách hàng</th>
+                <th>Ngày đặt</th>
+                <th>Địa chỉ giao hàng</th>
+                <th>Trạng thái đơn hàng</th>
+                <th>Phương Thức Thanh Toán</th>
+                <th>Trạng Thái Thanh Toán</th>
+                <th>Hoạt động</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.KHACHHANG.Ten</td>
+                    <td>@String.Format("{0:dd/MM/yyyy}", item.NgayDat)</td>
+                    <td>@item.DiaChi</td>
+                    @* Chuyển đổi từ value ENUM sang Description *@
+                    @{
+                        var trangThaiDonHangEnum = (Constants.StatusOrder)item.TrangThai;
+                        var trangThai = @EHelper.GetEnumDescription(trangThaiDonHangEnum);
+
+                        var trangThaiThanhToanEnum = (Constants.StatusPayment)item.TrangThaiThanhToan;
+                        var trangThaiThanhToan = @EHelper.GetEnumDescription(trangThaiThanhToanEnum);
+
+                        var phuongThucThanhToanEnum = (Constants.TypePayment)item.PhuongThucThanhToan;
+                        var phuongThucThanhToan = @EHelper.GetEnumDescription(phuongThucThanhToanEnum);
+                    }
+                    <td>@trangThai</td>
+                    <td>@trangThaiThanhToan</td>
+                    <td>@phuongThucThanhToan</td>
+                    <td>
+                        <a href="@Url.Action("Details/" + item.MaDonHang, "OrdersAdmin")" class="btn btn-info">Xem chi tiết</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete/" + item.MaDonHang, "OrdersAdmin")" class="btn btn-info">Xem chi tiết</a>
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+</div>
+@*<p>
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+</p>
+*@

@@ -1,0 +1,119 @@
+﻿/* Tổng quan cho phần chứa biểu đồ và bảng */
+.statistics-container {
+    margin: 20px auto;
+    max-width: 1200px;
+    padding: 20px;
+    background-color: #f0f4f8;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Định dạng cho tiêu đề biểu đồ */
+.chart-title {
+    font-size: 1.8em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Định dạng cho biểu đồ */
+.chart-container {
+    position: relative;
+    height: 400px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
+.canvas-container {
+    width: 2000px;
+    height: 100%;
+}
+
+/* Định dạng cho thông tin tổng quan */
+.summary {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .summary .card {
+        flex: 1;
+        margin: 0 5px; /* Giảm khoảng cách giữa các thẻ */
+        border-radius: 8px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        font-size: 0.9em; /* Giảm kích thước chữ trong thẻ */
+        padding: 10px; /* Giảm khoảng cách trong thẻ */
+    }
+
+        .summary .card:hover {
+            transform: translateY(-3px); /* Giảm hiệu ứng di chuyển */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .summary .card-body {
+        padding: 10px; /* Giảm padding trong card-body */
+    }
+
+.card-title {
+    font-size: 1em; /* Giảm kích thước chữ tiêu đề */
+}
+
+.card-text {
+    font-size: 0.9em; /* Giảm kích thước chữ nội dung */
+}
+
+
+/* Định dạng cho bảng thống kê */
+.table-container {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden; /* Để bo góc bảng và tránh tràn */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng cho bảng */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    color: #333;
+}
+
+    .table thead {
+        background-color: #007bff;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0; /* Đường viền giữa các hàng */
+    }
+
+    .table th {
+        font-weight: 600;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e2e2e2;
+        transition: background-color 0.3s ease;
+    }
+
+    .table td img {
+        max-width: 50px; /* Giới hạn kích thước của hình ảnh */
+        height: auto;
+        border-radius: 4px; /* Bo góc cho hình ảnh */
+    }
+
+
+/* Hiệu ứng nổi bật cho biểu đồ */
+.chart-container canvas {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

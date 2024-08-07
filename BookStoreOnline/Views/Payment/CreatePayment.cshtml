@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Pay with PayPal";
+}
+
+<h2>Pay with PayPal</h2>
+
+@using (Html.BeginForm("CreatePayment", "Payment", FormMethod.Post))
+{
+    @Html.AntiForgeryToken() <!-- Nếu bạn sử dụng AntiForgeryToken -->
+    <input type="hidden" name="amount" value="10.00" />
+    <button type="submit">Pay with PayPal</button>
+}

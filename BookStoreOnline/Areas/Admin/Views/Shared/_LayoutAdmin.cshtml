@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="~/Content/AdminAssets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/Content/AdminAssets/css/admin.css" rel="stylesheet">
+    <link rel="icon" href="~/Images/z5482551824090_8d0041d8091c42fc59c7cfff0e837099.jpg" />
+    <script src="~/Content/AdminAssets/js/sb-admin-2.min.js"></script>
+    <link href="~/Content/AdminAssets/css/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/AdminAssets/css/head.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    @*<script src="~/Scripts/jquery-3.4.1.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/ldifb3wbpipz2j97ne2j62ij420yp8y4n7c2cwyz0t081m6b/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea#editor',
+        });
+    </script>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/Admin">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Admin</div>
+            </a>
+
+            <!-- Divider -->
+            <!-- Divider -->
+            <aside style="width:auto" class="app-sidebar">
+                <div class="app-sidebar__user">
+                    <img class="app-sidebar__user-avatar" src="~/Images/z5482551824090_8d0041d8091c42fc59c7cfff0e837099.jpg" width="50px"
+                         alt="User Image">
+                    <div>
+                        <p class="app-sidebar__user-name"><b>Trang quản lí</b></p>
+                        <p style="font-size:medium;" class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+                    </div>
+                </div>
+                <ul class="app-menu">
+                    <li>
+                        <a class="app-menu__item" href="/Admin/Home_Page">
+                            <span style="color:#ffffff" class="app-menu__label">Trang chính</span>
+                        </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+                    <li>
+                        <a class="app-menu__item " href="/Admin/Categories">
+                            <span style="color:#ffffff" class="app-menu__label">Loại Sách</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="app-menu__item" href="/Admin/Products">
+                            <span style="color:#ffffff" class="app-menu__label">Danh sách Sách</span>
+                        </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+
+                    <hr class="sidebar-divider my-0">
+                    <li>
+                        <a class="app-menu__item " href="/Admin/AdminAccounts">
+                            <span style="color:#ffffff" class="app-menu__label">Tài khoản Admin</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="app-menu__item" href="/Admin/ControlUser">
+                            <span style="color:#ffffff" class="app-menu__label">Tài Khoản Người Dùng</span>
+                        </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+                    <li>
+                        <a class="app-menu__item" href="/Admin/OrdersAdmin?status=0">
+                            <span style="color:#ffffff" class="app-menu__label">Đơn Hàng Chưa Xác Nhận</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="app-menu__item" href="/Admin/OrdersAdmin?status=1">
+                            <span style="color:#ffffff" class="app-menu__label">Đơn Hàng Đã Xác Nhận</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="app-menu__item" href="/Admin/OrdersAdmin?status=2">
+                            <span style="color:#ffffff" class="app-menu__label">Đơn Hàng Đang Giao</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="app-menu__item" href="/Admin/OrdersAdmin?status=3">
+                            <span style="color:#ffffff" class="app-menu__label">Đơn Hàng Đã Nhận</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="app-menu__item" href="/Admin/OrdersAdmin?status=4">
+                            <span style="color:#ffffff" class="app-menu__label">Đơn Hàng Hủy</span>
+                        </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+                    <li>
+                        <a class="app-menu__item" href="/Admin/Statistics/Statistics">
+                            <span style="color:#ffffff" class="app-menu__label">Thống Kê</span>
+                        </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+                    <li>
+                        <a class="app-menu__item" href="/Admin/Discount">
+                            <span style="color:#ffffff" class="app-menu__label">Khuyến Mãi</span>
+                        </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+                    <a class="app-menu__item" href="/Admin/AdminReview">
+                        <span style="color:#ffffff" class="app-menu__label">Đánh Giá</span>
+                    </a>
+                    </li>
+                    <hr style="color:#ffffff" class="sidebar-divider my-0">
+                    <li>
+                        <a class="app-menu__item" href="/">
+                            <span style="color:#ffffff" class="app-menu__label">Đăng Xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            @*<div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>*@
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+
+                        <!-- Topbar Search -->
+                        @*<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm" aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>*@
+                        @*@RenderPage("Page_Search_Amin.cshtml")*@
+
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+
+                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                            <li class="nav-item dropdown no-arrow d-sm-none">
+                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-search fa-fw"></i>
+                                </a>
+                                <!-- Dropdown - Messages -->
+                                @*<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                                        <form class="form-inline mr-auto w-100 navbar-search">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" type="button">
+                                                        <i class="fas fa-search fa-sm"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>*@
+                            </li>
+                            <!-- Nav Item - User Information -->
+                            @*@{
+                                    var fullname = ((USER)Session["login"]).Fullname;
+                                }*@
+
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="mr-2 d-none d-lg-inline text-red-600 small"><b>@User.Identity.Name </b></span>
+                                        <img class="img-profile rounded-circle" src="https://yinnepal.files.wordpress.com/2017/11/admin.png?w=60">
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li>
+                                            <a class="dropdown-item" href="/Admin/Logout">
+                                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Đăng xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- End of Topbar -->
+                }
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="wrapper">
+            </footer>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+

@@ -1,0 +1,199 @@
+﻿@model BookStoreOnline.Models.SANPHAM
+
+@{
+    var price = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var user = ViewBag.User as BookStoreOnline.Models.KHACHHANG;
+}
+
+<div style="padding-top:50px;" class="container body-page">
+    <!-- Thông tin sản phẩm -->
+    <div class="row">
+        <div class="col-lg-5">
+            <img src="~/Images/@Model.Anh" style="width:100%" alt="@Model.TenSanPham">
+        </div>
+        <div class="col-lg-4">
+            <h3>@Model.TenSanPham</h3>
+            <h3 style="color:darkred;">@String.Format(price, "{0:c0}", Model.Gia)</h3>
+            <p>Tác giả: @Model.TacGia</p>
+            <p>Mô tả: @Model.MoTa</p>
+
+            <!-- Thêm vào giỏ hàng -->
+            @if (user == null)
+            {
+                <div class="form-add-to-cart">
+                    <input type="number" style="width:60px" value="1" min="1">
+                    <button onclick="location.href='@Url.Action("Login", "User")'"><i class="bi bi-bag-plus"></i> Thêm vào giỏ hàng</button>
+                </div>
+            }
+            else
+            {
+                using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-add-to-cart" }))
+                {
+                    <input type="number" name="Quantity" style="width:60px" value="1" min="1">
+                    <input type="hidden" name="ProductID" value="@Model.MaSanPham" />
+                    <button style="background-color: #c92127; color: white; border-radius:5px" type="submit"><i class="bi bi-bag-plus"></i> Thêm vào giỏ hàng</button>
+                }
+            }
+        </div>
+    </div>
+    <hr />
+
+    <!-- Phần đánh giá -->
+    <div class="product-reviews">
+        <h3>Đánh giá sản phẩm</h3>
+        @if (Model.DANHGIA.Any())
+        {
+            foreach (var review in Model.DANHGIA)
+            {
+                <div class="review">
+                    <p><strong>@review.KHACHHANG.Ten</strong> - <span>@review.NgayTao.ToString("dd/MM/yyyy HH:mm")</span></p>
+                    <p>@review.NoiDung</p>
+                    <p>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa @((i <= review.SoSao) ? "fa-star" : "fa-star-o")" aria-hidden="true"></i>
+                        }
+                        <span>@review.SoSao sao</span>
+                    </p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+        }
+
+        @if (user != null)
+        {
+            using (Html.BeginForm("AddReview", "ProductDetail", FormMethod.Post))
+            {
+                <div class="form-review">
+                    <input type="hidden" name="ProductID" value="@Model.MaSanPham" />
+                    <textarea name="NoiDung" rows="4" cols="50" placeholder="Nhập nội dung đánh giá..."></textarea>
+                    <br />
+                    <label for="rating">Số sao:</label>
+                    <div class="rating-stars">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa fa-star star" data-value="@i" aria-hidden="true"></i>
+                        }
+                        <input type="hidden" id="rating" name="SoSao" value="1" />
+                    </div>
+                    <br />
+                    <button style="margin-left: 0; background-color: #c92127; border-radius:5px;width:auto; height:auto;" class="custom-btn" type="submit">Gửi đánh giá</button>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Để lại đánh giá, bạn cần đăng nhập. <a href="@Url.Action("Login", "User")">Đăng nhập</a></p>
+        }
+    </div>
+    <hr />
+
+    <!-- Các sản phẩm liên quan -->
+    <div class="more-some-book">
+        <h3>Khám phá thêm</h3>
+        <hr />
+        <div class="row">
+            @foreach (var item in ViewBag.MoreBook)
+            {
+                <div class="col-lg-4 prod-item">
+                    <div class="card" style="width: 18rem;">
+                        <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })">
+                            <img class="card-img-top" src="~/Images/@item.Anh" alt="@item.TenSanPham">
+                        </a>
+                        <div class="card-body">
+                            <a href="@Url.Action("Index", "ProductDetail", new { id = item.MaSanPham })" class="title-prod">
+                                <h5 class="card-title">@item.TenSanPham</h5>
+                            </a>
+                            <h5 style="color: darkred;">@String.Format(price, "{0:c0}", item.Gia)</h5>
+                            <p class="card-text rating-card">
+                                <span style="color: black;">(0 đánh giá)</span>
+                            </p>
+                            @if (user != null)
+                            {
+                                <a href="@Url.Action("AddSingleProduct", "Cart", new { id = item.MaSanPham })" class="" style="background-color: #c92127; text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;">Mua Ngay</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login", "User")" class="" style="background-color: #c92127; text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;">Mua Ngay</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Xem thêm sản phẩm -->
+    <div class="row" style="justify-content: center; margin:0px auto;">
+        <a style="background-color: #c92127; text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;" href="@Url.Action("GetAllBook", "Category")" class="see-more">
+            <h4>Xem thêm</h4>
+        </a>
+    </div>
+</div>
+
+<!-- Thêm Font Awesome vào dự án của bạn -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    /* Phần CSS cho đánh giá sao */
+    .rating-stars {
+        display: flex;
+        direction: row;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .star {
+        color: #ccc; /* Màu sắc mặc định của sao */
+        transition: color 0.2s ease;
+        margin-right: 5px;
+    }
+
+        .star:hover,
+        .star.selected {
+            color: #f39c12; /* Màu sắc của sao khi di chuột qua hoặc được chọn */
+        }
+
+    .rating-stars input[type="hidden"] {
+        display: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var stars = document.querySelectorAll('.rating-stars .star');
+        var ratingInput = document.getElementById('rating');
+
+        stars.forEach(function (star) {
+            star.addEventListener('mouseover', function () {
+                var value = this.getAttribute('data-value');
+                updateStars(value);
+            });
+
+            star.addEventListener('mouseout', function () {
+                var value = ratingInput.value;
+                updateStars(value);
+            });
+
+            star.addEventListener('click', function () {
+                var value = this.getAttribute('data-value');
+                ratingInput.value = value;
+                updateStars(value);
+            });
+        });
+
+        function updateStars(value) {
+            stars.forEach(function (star) {
+                var starValue = star.getAttribute('data-value');
+                if (starValue <= value) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+    });
+</script>

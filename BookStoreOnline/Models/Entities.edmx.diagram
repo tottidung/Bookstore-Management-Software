@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="31bb524cd3534d8d99aa3c98fd8d2f94" Name="Diagram1" ZoomLevel="79">
+        <EntityTypeShape EntityType="NhaSachModel.CHITIETDONHANG" Width="1.5" PointX="8.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.DANHGIA" Width="1.5" PointX="11.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.DONHANG" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.KHACHHANG" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.KHUYENMAI" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.LOAI" Width="1.5" PointX="8.875" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.NHANVIEN" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaSachModel.SANPHAM" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
+        <AssociationConnector Association="NhaSachModel.FK_Chitietdonhang_Donhang" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_Chitietdonhang_Sanpham" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_DANHGIA_KHACHHANG" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_DANHGIA_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_Donhang_Khachhang" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_DONHANG_NHANVIEN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_Sanpham_Theloai" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaSachModel.FK_SANPHAM_NHANVIEN" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

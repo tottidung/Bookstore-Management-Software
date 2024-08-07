@@ -1,0 +1,52 @@
+﻿@model BookStoreOnline.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "UpdateInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@if (ViewBag.ThongBao != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.ThongBao
+    </div>
+}
+
+@using (Html.BeginForm("UpdateInfo", "User", FormMethod.Post, new { @class = "form-update-info" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div style="border-radius: 10px; padding: 20px 20px; background: #fff; margin: 32px 0px; width: 500px; margin-left: 550px;">
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Ten)
+            @Html.TextBoxFor(m => m.Ten, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Ten)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.DiaChi)
+            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DiaChi)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SoDienThoai)
+            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SoDienThoai)
+        </div>
+        <button type="submit" style="background-color: #c92127; text-align: center; margin: 30px auto; display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid #C92127; font-size: 18px; font-weight: 700; width: 210px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.5s;" class="btn btn-primary">Cập nhật thông tin</button>
+    </div>
+
+
+
+
+}

@@ -1,0 +1,221 @@
+﻿@model IEnumerable<BookStoreOnline.Models.SANPHAM>
+
+@{
+    ViewBag.Title = "Thống Kê";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    <link href="~/Areas/Admin/Controllers/conten/thongkecsss.css" rel="stylesheet" />
+    ViewBag.Title = "Thống Kê Sản Phẩm";
+    var productStats = ViewBag.ProductStats as List<BookStoreOnline.Areas.Admin.Controllers.ProductStatViewModel>;
+    var totalQuantityInStock = ViewBag.TotalQuantityInStock;
+    var totalQuantitySold = ViewBag.TotalQuantitySold;
+    var totalRevenue = ViewBag.TotalRevenue;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thống Kê Sản Phẩm</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/styles.css"> <!-- Liên kết đến file CSS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container statistics-container">
+        <h2 class="mt-4 chart-title">Thống Kê Sản Phẩm</h2>
+
+        <div class="chart-container">
+            <div class="canvas-container">
+                <canvas id="productChart"></canvas>
+            </div>
+        </div>
+
+        <div class="summary">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng Số Lượng Tồn Kho</h5>
+                    <p class="card-text">@totalQuantityInStock</p>
+                </div>
+            </div>
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng Số Lượng Đã Bán</h5>
+                    <p class="card-text">@totalQuantitySold</p>
+                </div>
+            </div>
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng Doanh Thu (VND)</h5>
+                    <p class="card-text">@totalRevenue VND</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Số Lượng Tồn Kho</th>
+                        <th>Số Lượng Đã Bán</th>
+                        <th>Tổng Doanh Thu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (productStats != null && productStats.Any())
+                    {
+                        foreach (var product in productStats)
+                        {
+                            <tr>
+                                <td>@product.ProductName</td>
+                                <td>@product.QuantityInStock.ToString("N0")</td>
+                                <td>@product.QuantitySold.ToString("N0")</td>
+                                <td>@product.TotalRevenue.ToString("N0") VND</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">Chưa có dữ liệu</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ctx = document.getElementById('productChart').getContext('2d');
+
+            var productNames = @Html.Raw(Json.Encode(productStats.Select(p => p.ProductName).ToList()));
+            var quantitiesInStock = @Html.Raw(Json.Encode(productStats.Select(p => p.QuantityInStock).ToList()));
+            var quantitiesSold = @Html.Raw(Json.Encode(productStats.Select(p => p.QuantitySold).ToList()));
+            var revenues = @Html.Raw(Json.Encode(productStats.Select(p => p.TotalRevenue).ToList()));
+
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: productNames,
+                    datasets: [
+                        {
+                            label: 'Số Lượng Tồn Kho',
+                            data: quantitiesInStock,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            lineTension: 0.3
+                        },
+                        {
+                            label: 'Số Lượng Đã Bán',
+                            data: quantitiesSold,
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            lineTension: 0.3
+                        },
+                        {
+                            label: 'Tổng Doanh Thu',
+                            data: revenues,
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            lineTension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 0,
+                                font: {
+                                    size: 14,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                    weight: 'bold',
+                                    color: '#333'
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                },
+                                font: {
+                                    size: 14,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                    color: '#333'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                    weight: 'bold',
+                                    color: '#333'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                    }
+                                    return label;
+                                }
+                            },
+                            titleFont: {
+                                size: 14,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                weight: 'bold',
+                                color: '#ffffff'
+                            },
+                            bodyFont: {
+                                size: 12,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                color: '#ffffff'
+                            },
+                            footerFont: {
+                                size: 12,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                color: '#ffffff'
+                            },
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

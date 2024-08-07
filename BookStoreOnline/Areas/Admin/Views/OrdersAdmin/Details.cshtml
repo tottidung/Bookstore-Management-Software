@@ -1,0 +1,112 @@
+﻿@model BookStoreOnline.Models.DONHANG
+@using BookStoreOnline.Areas.Admin.Constants;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var price = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<title>Chi Tiết Đơn Hàng</title>
+<div class="card-body">
+    <h2>Chi tiết đơn hàng</h2>
+</div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped text-center" style=" width: 96%;">
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+            </tr>
+
+            @foreach (var item in ViewBag.Detail)
+            {
+                <tr>
+                    <td style="width: 15%;">
+                        <img src="~/Images/@item.SANPHAM.Anh" style="width: 60%; position: relative; left: 0;height:100px" />
+                    </td>
+                    <td style="width:35%">
+                        @item.SANPHAM.TenSanPham
+                    </td>
+                    <td>
+                        @item.SoLuong
+                    </td>
+                    <td>
+                        <h6>@String.Format(price, "{0:c0}", item.SANPHAM.Gia)</h6>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="row">
+                    <div class="col-lg-6">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card shadow mb-4 custom-card-body">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Chi tiết tổng đơn</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Tên khách hàng: <span style="font-weight:bold">@Model.KHACHHANG.Ten</span> <br /><br />
+                                        Địa chỉ giao hàng: @Model.DiaChi <br /> <br />
+                                        @if (Model.TrangThai == (int)Constants.StatusOrder.NoInform)
+                                        {
+                                            <a href="@Url.Action("ConfirmOrder/"+ Model.MaDonHang,"OrdersAdmin")" class="btn btn-success">Xác nhận đơn hàng</a>
+                                        }
+                                        @if (Model.TrangThai == (int)Constants.StatusOrder.Informed)
+                                        {
+                                            <a href="@Url.Action("Shipping/"+ Model.MaDonHang,"OrdersAdmin")" class="btn btn-success">Chuyển cho shipper</a>
+                                        }
+                                        @if (Model.TrangThai == (int)Constants.StatusOrder.Shipping)
+                                        {
+                                            <a href="@Url.Action("ShippingSuccess/"+ Model.MaDonHang,"OrdersAdmin")" class="btn btn-success">Xác nhận giao thành công</a>
+                                        }
+                                        @if (Model.TrangThai != (int)Constants.StatusOrder.Canceled && Model.TrangThai != (int)Constants.StatusOrder.Received)
+                                        {
+                                            <a href="@Url.Action("CancelOrder/"+ Model.MaDonHang,"OrdersAdmin")" class="btn btn-danger" >Hủy đơn hàng</a>
+                                        }
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Tổng tiền
+                                                    </div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> @String.Format(price, "{0:c0}", ViewBag.Total)</div>
+                                                </div>
+                                        @*        <div class="col-auto d-flex align-items-center">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300 me-2"></i>
+                                                    <span class="text-muted">@((Constants.StatusOrder)Model.TrangThai).ToString()</span>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary", style = "color: white !important;" })
+</p>
+<style>
+    /* Tạo lớp CSS tùy chỉnh để mở rộng chiều rộng */
+    .custom-card-body {
+        width: 130%; /* Điều chỉnh chiều rộng tùy theo nhu cầu */
+    }
+
+</style>

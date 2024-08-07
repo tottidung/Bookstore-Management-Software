@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NhaSachModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Chitietdonhang">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Madonhang" Type="int" />
+          <Property Name="Masanpham" Type="int" />
+          <Property Name="Soluong" Type="int" />
+          <Property Name="Tongtien" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Donhang">
+          <Key>
+            <PropertyRef Name="Madonhang" />
+          </Key>
+          <Property Name="Madonhang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Diachi" Type="nvarchar(max)" />
+          <Property Name="Trangthaidh" Type="int" />
+          <Property Name="Ngaydat" Type="datetime" />
+          <Property Name="ID" Type="int" />
+          <Property Name="Trangthaitt" Type="int" Nullable="false" />
+          <Property Name="Phuongthuctt" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Khachhang">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ten" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Matkhau" Type="nvarchar(max)" />
+          <Property Name="Sodienthoai" Type="varchar" MaxLength="10" />
+          <Property Name="Diachi" Type="nvarchar" MaxLength="255" />
+          <Property Name="Ngaytao" Type="datetime" />
+          <Property Name="Trangthai" Type="bit" />
+        </EntityType>
+        <EntityType Name="Phanquyen">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Matkhau" Type="nvarchar(max)" />
+          <Property Name="Quyen" Type="int" Nullable="false" />
+          <Property Name="Ten" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ngaytao" Type="datetime" />
+          <Property Name="Trangthai" Type="bit" />
+        </EntityType>
+        <EntityType Name="Sanpham">
+          <Key>
+            <PropertyRef Name="Masanpham" />
+          </Key>
+          <Property Name="Masanpham" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tensanpham" Type="nvarchar(max)" />
+          <Property Name="Gia" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Mota" Type="nvarchar(max)" />
+          <Property Name="Tacgia" Type="nvarchar(max)" />
+          <Property Name="Anhsp" Type="nvarchar(max)" />
+          <Property Name="Matheloai" Type="int" />
+        </EntityType>
+        <EntityType Name="Theloai">
+          <Key>
+            <PropertyRef Name="MaTheloai" />
+          </Key>
+          <Property Name="MaTheloai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenTheloai" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Chitietdonhang_Donhang">
+          <End Role="Donhang" Type="Self.Donhang" Multiplicity="0..1" />
+          <End Role="Chitietdonhang" Type="Self.Chitietdonhang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donhang">
+              <PropertyRef Name="Madonhang" />
+            </Principal>
+            <Dependent Role="Chitietdonhang">
+              <PropertyRef Name="Madonhang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chitietdonhang_Sanpham">
+          <End Role="Sanpham" Type="Self.Sanpham" Multiplicity="0..1" />
+          <End Role="Chitietdonhang" Type="Self.Chitietdonhang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sanpham">
+              <PropertyRef Name="Masanpham" />
+            </Principal>
+            <Dependent Role="Chitietdonhang">
+              <PropertyRef Name="Masanpham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donhang_Khachhang">
+          <End Role="Khachhang" Type="Self.Khachhang" Multiplicity="0..1" />
+          <End Role="Donhang" Type="Self.Donhang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Khachhang">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Donhang">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sanpham_Theloai">
+          <End Role="Theloai" Type="Self.Theloai" Multiplicity="0..1" />
+          <End Role="Sanpham" Type="Self.Sanpham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theloai">
+              <PropertyRef Name="MaTheloai" />
+            </Principal>
+            <Dependent Role="Sanpham">
+              <PropertyRef Name="Matheloai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NhaSachModelStoreContainer">
+          <EntitySet Name="Chitietdonhang" EntityType="Self.Chitietdonhang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donhang" EntityType="Self.Donhang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Khachhang" EntityType="Self.Khachhang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phanquyen" EntityType="Self.Phanquyen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sanpham" EntityType="Self.Sanpham" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Theloai" EntityType="Self.Theloai" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Chitietdonhang_Donhang" Association="Self.FK_Chitietdonhang_Donhang">
+            <End Role="Donhang" EntitySet="Donhang" />
+            <End Role="Chitietdonhang" EntitySet="Chitietdonhang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chitietdonhang_Sanpham" Association="Self.FK_Chitietdonhang_Sanpham">
+            <End Role="Sanpham" EntitySet="Sanpham" />
+            <End Role="Chitietdonhang" EntitySet="Chitietdonhang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donhang_Khachhang" Association="Self.FK_Donhang_Khachhang">
+            <End Role="Khachhang" EntitySet="Khachhang" />
+            <End Role="Donhang" EntitySet="Donhang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sanpham_Theloai" Association="Self.FK_Sanpham_Theloai">
+            <End Role="Theloai" EntitySet="Theloai" />
+            <End Role="Sanpham" EntitySet="Sanpham" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NhaSachModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Chitietdonhang">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Madonhang" Type="Int32" />
+          <Property Name="Masanpham" Type="Int32" />
+          <Property Name="Soluong" Type="Int32" />
+          <Property Name="Tongtien" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Donhang" Relationship="Self.FK_Chitietdonhang_Donhang" FromRole="Chitietdonhang" ToRole="Donhang" />
+          <NavigationProperty Name="Sanpham" Relationship="Self.FK_Chitietdonhang_Sanpham" FromRole="Chitietdonhang" ToRole="Sanpham" />
+        </EntityType>
+        <EntityType Name="Donhang">
+          <Key>
+            <PropertyRef Name="Madonhang" />
+          </Key>
+          <Property Name="Madonhang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Diachi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Trangthaidh" Type="Int32" />
+          <Property Name="Ngaydat" Type="DateTime" Precision="3" />
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Trangthaitt" Type="Int32" Nullable="false" />
+          <Property Name="Phuongthuctt" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Chitietdonhangs" Relationship="Self.FK_Chitietdonhang_Donhang" FromRole="Donhang" ToRole="Chitietdonhang" />
+          <NavigationProperty Name="Khachhang" Relationship="Self.FK_Donhang_Khachhang" FromRole="Donhang" ToRole="Khachhang" />
+        </EntityType>
+        <EntityType Name="Khachhang">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ten" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Matkhau" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Sodienthoai" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Diachi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Ngaytao" Type="DateTime" Precision="3" />
+          <Property Name="Trangthai" Type="Boolean" />
+          <NavigationProperty Name="Donhangs" Relationship="Self.FK_Donhang_Khachhang" FromRole="Khachhang" ToRole="Donhang" />
+        </EntityType>
+        <EntityType Name="Phanquyen">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Matkhau" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Quyen" Type="Int32" Nullable="false" />
+          <Property Name="Ten" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ngaytao" Type="DateTime" Precision="3" />
+          <Property Name="Trangthai" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Sanpham">
+          <Key>
+            <PropertyRef Name="Masanpham" />
+          </Key>
+          <Property Name="Masanpham" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tensanpham" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Mota" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Tacgia" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Anhsp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Matheloai" Type="Int32" />
+          <NavigationProperty Name="Chitietdonhangs" Relationship="Self.FK_Chitietdonhang_Sanpham" FromRole="Sanpham" ToRole="Chitietdonhang" />
+          <NavigationProperty Name="Theloai" Relationship="Self.FK_Sanpham_Theloai" FromRole="Sanpham" ToRole="Theloai" />
+        </EntityType>
+        <EntityType Name="Theloai">
+          <Key>
+            <PropertyRef Name="MaTheloai" />
+          </Key>
+          <Property Name="MaTheloai" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenTheloai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sanphams" Relationship="Self.FK_Sanpham_Theloai" FromRole="Theloai" ToRole="Sanpham" />
+        </EntityType>
+        <Association Name="FK_Chitietdonhang_Donhang">
+          <End Role="Donhang" Type="Self.Donhang" Multiplicity="0..1" />
+          <End Role="Chitietdonhang" Type="Self.Chitietdonhang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donhang">
+              <PropertyRef Name="Madonhang" />
+            </Principal>
+            <Dependent Role="Chitietdonhang">
+              <PropertyRef Name="Madonhang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chitietdonhang_Sanpham">
+          <End Role="Sanpham" Type="Self.Sanpham" Multiplicity="0..1" />
+          <End Role="Chitietdonhang" Type="Self.Chitietdonhang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sanpham">
+              <PropertyRef Name="Masanpham" />
+            </Principal>
+            <Dependent Role="Chitietdonhang">
+              <PropertyRef Name="Masanpham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donhang_Khachhang">
+          <End Role="Khachhang" Type="Self.Khachhang" Multiplicity="0..1" />
+          <End Role="Donhang" Type="Self.Donhang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Khachhang">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Donhang">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sanpham_Theloai">
+          <End Role="Theloai" Type="Self.Theloai" Multiplicity="0..1" />
+          <End Role="Sanpham" Type="Self.Sanpham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theloai">
+              <PropertyRef Name="MaTheloai" />
+            </Principal>
+            <Dependent Role="Sanpham">
+              <PropertyRef Name="Matheloai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NhaSachEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chitietdonhangs" EntityType="Self.Chitietdonhang" />
+          <EntitySet Name="Donhangs" EntityType="Self.Donhang" />
+          <EntitySet Name="Khachhangs" EntityType="Self.Khachhang" />
+          <EntitySet Name="Phanquyens" EntityType="Self.Phanquyen" />
+          <EntitySet Name="Sanphams" EntityType="Self.Sanpham" />
+          <EntitySet Name="Theloais" EntityType="Self.Theloai" />
+          <AssociationSet Name="FK_Chitietdonhang_Donhang" Association="Self.FK_Chitietdonhang_Donhang">
+            <End Role="Donhang" EntitySet="Donhangs" />
+            <End Role="Chitietdonhang" EntitySet="Chitietdonhangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chitietdonhang_Sanpham" Association="Self.FK_Chitietdonhang_Sanpham">
+            <End Role="Sanpham" EntitySet="Sanphams" />
+            <End Role="Chitietdonhang" EntitySet="Chitietdonhangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donhang_Khachhang" Association="Self.FK_Donhang_Khachhang">
+            <End Role="Khachhang" EntitySet="Khachhangs" />
+            <End Role="Donhang" EntitySet="Donhangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sanpham_Theloai" Association="Self.FK_Sanpham_Theloai">
+            <End Role="Theloai" EntitySet="Theloais" />
+            <End Role="Sanpham" EntitySet="Sanphams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NhaSachModelStoreContainer" CdmEntityContainer="NhaSachEntities">
+          <EntitySetMapping Name="Chitietdonhangs">
+            <EntityTypeMapping TypeName="NhaSachModel.Chitietdonhang">
+              <MappingFragment StoreEntitySet="Chitietdonhang">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Madonhang" ColumnName="Madonhang" />
+                <ScalarProperty Name="Masanpham" ColumnName="Masanpham" />
+                <ScalarProperty Name="Soluong" ColumnName="Soluong" />
+                <ScalarProperty Name="Tongtien" ColumnName="Tongtien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donhangs">
+            <EntityTypeMapping TypeName="NhaSachModel.Donhang">
+              <MappingFragment StoreEntitySet="Donhang">
+                <ScalarProperty Name="Madonhang" ColumnName="Madonhang" />
+                <ScalarProperty Name="Diachi" ColumnName="Diachi" />
+                <ScalarProperty Name="Trangthaidh" ColumnName="Trangthaidh" />
+                <ScalarProperty Name="Ngaydat" ColumnName="Ngaydat" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Trangthaitt" ColumnName="Trangthaitt" />
+                <ScalarProperty Name="Phuongthuctt" ColumnName="Phuongthuctt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Khachhangs">
+            <EntityTypeMapping TypeName="NhaSachModel.Khachhang">
+              <MappingFragment StoreEntitySet="Khachhang">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Matkhau" ColumnName="Matkhau" />
+                <ScalarProperty Name="Sodienthoai" ColumnName="Sodienthoai" />
+                <ScalarProperty Name="Diachi" ColumnName="Diachi" />
+                <ScalarProperty Name="Ngaytao" ColumnName="Ngaytao" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phanquyens">
+            <EntityTypeMapping TypeName="NhaSachModel.Phanquyen">
+              <MappingFragment StoreEntitySet="Phanquyen">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Matkhau" ColumnName="Matkhau" />
+                <ScalarProperty Name="Quyen" ColumnName="Quyen" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+                <ScalarProperty Name="Ngaytao" ColumnName="Ngaytao" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sanphams">
+            <EntityTypeMapping TypeName="NhaSachModel.Sanpham">
+              <MappingFragment StoreEntitySet="Sanpham">
+                <ScalarProperty Name="Masanpham" ColumnName="Masanpham" />
+                <ScalarProperty Name="Tensanpham" ColumnName="Tensanpham" />
+                <ScalarProperty Name="Gia" ColumnName="Gia" />
+                <ScalarProperty Name="Mota" ColumnName="Mota" />
+                <ScalarProperty Name="Tacgia" ColumnName="Tacgia" />
+                <ScalarProperty Name="Anhsp" ColumnName="Anhsp" />
+                <ScalarProperty Name="Matheloai" ColumnName="Matheloai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Theloais">
+            <EntityTypeMapping TypeName="NhaSachModel.Theloai">
+              <MappingFragment StoreEntitySet="Theloai">
+                <ScalarProperty Name="MaTheloai" ColumnName="MaTheloai" />
+                <ScalarProperty Name="TenTheloai" ColumnName="TenTheloai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

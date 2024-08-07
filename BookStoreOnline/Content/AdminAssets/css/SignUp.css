@@ -1,0 +1,122 @@
+﻿
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+.custom-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 5px; /* Khoảng cách giữa hai nút */
+}
+
+.btn-login {
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    color: #000;
+}
+
+.btn-signup {
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px 25px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #C92127;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login:hover {
+    text-decoration: none;
+    z-index: 1;
+    opacity: 1 !important;
+}
+
+.custom-btn:hover {
+    text-decoration: none;
+    color: #fff;
+    transform: scale(1.1); /* Phóng to nút khi hover */
+}
+
+.custom-btn:active {
+    text-decoration: none;
+    transform: scale(0.9); /* Thu nhỏ nút khi nhấn */
+}
+
+.button-container a:hover {
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.1); /* Màu nền sáng lên khi hover */
+}
+
+    .button-container a:hover + a {
+        text-decoration: none;
+        background: rgba(0, 0, 0, 0.05); /* Thay đổi màu nền của nút tiếp theo khi hover */
+    }
+
+/* Căn chỉnh phần hero */
+/* Căn chỉnh phần hero */
+.hero {
+    position: relative; /* Để các nút điều hướng có thể được đặt tuyệt đối bên trong */
+    overflow: hidden; /* Ẩn các phần tử bị tràn ra ngoài */
+    width: 95%; /* Đảm bảo phần hero chiếm toàn bộ chiều rộng của phần tử cha */
+}
+
+/* Căn chỉnh slide-show */
+.slide-show {
+    position: relative; /* Để các nút điều hướng có thể được đặt tuyệt đối bên trong */
+    width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử cha */
+    height: auto; /* Chiều cao tự động dựa trên nội dung */
+}
+
+/* Căn chỉnh danh sách ảnh */
+.list-images {
+    display: flex; /* Sử dụng Flexbox để sắp xếp ảnh theo hàng ngang */
+    width: 280%; /* Chiều rộng của danh sách ảnh đủ để chứa tất cả các ảnh */
+    transition: transform 0.5s ease; /* Hiệu ứng chuyển đổi mượt mà cho chuyển động của ảnh */
+}
+
+    .list-images img {
+        width: 100%; /* Đảm bảo mỗi ảnh chiếm toàn bộ chiều rộng của phần tử cha */
+        height: auto; /* Chiều cao tự động dựa trên tỷ lệ khung hình của ảnh */
+        display: block; /* Đảm bảo ảnh không có khoảng trắng phía dưới */
+    }
+
+/* Căn chỉnh các nút điều hướng */
+.btnn {
+    position: absolute; /* Đặt các nút điều hướng ở vị trí tuyệt đối */
+    top: 50%; /* Đặt các nút điều hướng ở giữa chiều cao của slide-show */
+    width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử cha */
+    display: flex; /* Sử dụng Flexbox để căn giữa các nút điều hướng theo chiều ngang */
+    justify-content: space-between; /* Đặt các nút điều hướng ở hai bên của slide-show */
+    transform: translateY(-50%); /* Căn giữa các nút điều hướng theo chiều dọc */
+    padding: 0 20px; /* Khoảng cách bên trái và bên phải của các nút điều hướng */
+}
+
+.btn-left, .btn-right {
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ cho các nút điều hướng */
+    color: #fff; /* Màu chữ của các nút điều hướng */
+    border: none; /* Xóa border mặc định */
+    padding: 10px; /* Khoảng cách bên trong các nút điều hướng */
+    cursor: pointer; /* Hiển thị con trỏ chuột kiểu pointer khi hover */
+    border-radius: 50%; /* Bo góc cho các nút điều hướng thành hình tròn */
+    font-size: 24px; /* Kích thước chữ cho các biểu tượng */
+    display: flex; /* Căn giữa nội dung của các nút điều hướng */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+}
+    .btn-left:hover, .btn-right:hover {
+        background-color: rgba(0, 0, 0, 0.8); /* Màu nền khi hover */
+    }
+/* Hiệu ứng khi hover cho các nút điều hướng */
+

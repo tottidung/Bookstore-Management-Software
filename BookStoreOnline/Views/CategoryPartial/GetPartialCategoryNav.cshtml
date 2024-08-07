@@ -1,0 +1,13 @@
+﻿<div class="dropdown show">
+    <a style="background-color: #dc3545;" class="category-nav" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="bi bi-list"></i>
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="@Url.Action("GetAllBook","Category")">Tất cả sách</a>
+        @foreach (var item in ViewBag.CateList)
+        {
+            <a class="dropdown-item" href="@Url.Action("Index/"+item.Maloai,"Category")">@item.Tenloai</a>
+
+        }
+    </div>
+</div>

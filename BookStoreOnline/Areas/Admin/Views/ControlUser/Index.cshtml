@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BookStoreOnline.Models.KHACHHANG>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<title>Tài Khoản Người Dùng</title>
+<div class="card-body">
+    <h2>Danh sách tài khoản người dùng</h2>
+</div>
+<p>
+    @*<button class="btn-default"> @Html.ActionLink("Thêm mới", "Create") </button>*@
+</p>
+<div class="card-body">
+
+<table class="table-responsive">
+    <tr>
+        <th>
+            Tên người dùng
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th> Ngày tạo</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @(item.TrangThai ? "Kích hoạt" : "Vô hiệu hóa")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTao)
+            </td>
+
+
+            <td>
+                @*<button class="btn btn-success">
+            @Html.ActionLink("Sửa", "Edit", new { id = item.MaNguoiDung }, new { @style = "color:white;" })
+        </button>*@
+                <button style="background-color:black;" class="btn btn-primary">
+                    @Html.ActionLink("Reset mật khẩu ", "ResetPassword", new { id = item.MaKH }, new { @style = "color:white;" })
+                </button>
+                <button class="btn btn-warning">
+                    @Html.ActionLink("Vô hiệu hóa", "DisableAccount", new { id = item.MaKH }, new { @style = "color:white;" })
+                </button>
+               
+                    <a href="@Url.Action("EnableAccount", new { id = item.MaKH })" class="btn btn-sm btn-info">Mở khóa </a>
+                
+                <button class="btn btn-danger">
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.MaKH }, new { @style = "color:white;" })
+                </button>
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+</div>
